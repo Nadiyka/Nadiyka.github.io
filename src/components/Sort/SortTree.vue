@@ -1,6 +1,6 @@
 <template>
     <div class="sort-block">
-        <div class="sort-block_initial">
+        <div class="sort-block_list">
             <h3 class="sort-block_header">Исходные элементы:</h3>
             <ul class="sort-block_elements">
                 <li v-for="element in initialElements"
@@ -8,47 +8,48 @@
                     :class="{ 'active': activeNode !== false && (activeNode  === element.key) }"
                     :style="{ 'background-color': colors.base }">{{element.value}}</li>
             </ul>
+            <button class="btn btn--medium btn--sort"
+                    type="button"
+                    @click="startSorting">
+                Начать сортировку
+            </button>
+            <div v-show="this.timeline !== null"
+                 class="sort-block_controls">
+                <button class="btn btn--small btn--pause"
+                        type="button"
+                        :disabled="this.timeline === null"
+                        @click="pauseSorting">
+                    &#10073;&#10073;
+                </button>
+                <button class="btn btn--small btn--resume"
+                        type="button"
+                        :disabled="this.timeline === null"
+                        @click="resumeSorting">
+                    &#x25BA;
+                </button>
+            </div>
         </div>
 
         <div v-show="tree"
-             class="sort-block_animation">
+             class="sort-block_list">
             <h3 class="sort-block_header">Построенное дерево:</h3>
             <ul class="tree" :style="{ 'height': `${height}px` }">
                 <li v-for="node in nodeElements"
-                    :key="node.key"
                     :ref="node.key"
-                    :class="{ 'active': activeNode !== false && (activeNode === node.key) }"
-                    :style="{ 'background-color': colors.base }">{{node.value}}</li>
+                    :style="{ 'background-color': colors.base }">
+                        {{node.value}}
+                        <span class="tree-line"></span>
+                </li>
             </ul>
         </div>
 
         <div v-if="sortedElements.length"
-             class="sort-block_results">
+             class="sort-block_list">
             <h3 class="sort-block_header">Отсортированные элементы:</h3>
             <ul class="sort-block_elements">
                 <li v-for="sortedElement in sortedElements"
                     :style="{ 'background-color': colors.sorted }"> {{sortedElement}} </li>
             </ul>
-        </div>
-
-        <div class="sort-block_controls">
-            <button class="btn btn--sort"
-                    type="button"
-                    @click="startSorting">
-                Начать сортировку
-            </button>
-            <button class="btn btn--pause"
-                    type="button"
-                    :disabled="this.timeline === null"
-                    @click="pauseSorting">
-                Пауза
-            </button>
-            <button class="btn btn--resume"
-                    type="button"
-                    :disabled="this.timeline === null"
-                    @click="resumeSorting">
-                Продолжить
-            </button>
         </div>
     </div>
 </template>
@@ -189,11 +190,11 @@
                         // появление корневого элемента дерева
                         this.timeline.add({
                             targets: this.$refs[el.key],
-                            translateX: {
-                                value: 500,
-                                duration: 200,
-                                delay: 0
-                            }
+                            left: 500
+                        });
+
+                        node.setLastState({
+                            left: 500
                         });
                     } else {
                         // обработка не корневых элементов дерева
@@ -209,7 +210,7 @@
                         });
 
                         baseHeightAddition += 10;
-                        height = lastState.translateY + baseHeightAddition;
+                        height = lastState.top + baseHeightAddition;
 
                         node.setLastState(lastState);
                     }

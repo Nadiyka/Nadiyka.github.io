@@ -26,10 +26,10 @@ const countDuplicates = array => array.reduce((accumulator, current) =>
  *
  * @returns {Object[]}
  */
-const createAnimation = (value, tree, params = { x: 500, y: 0, delay: 0, step: 150}) => {
+const createAnimation = (value, tree, params = { x: 500, y: 0, step: 200}) => {
     let animations = [], // анимации
         activeNode = null, // активная ветка анимаций
-        smallStep = 40, // шаг для сравнения
+        smallStep = 15, // шаг для сравнения
         minStep = 50, // минимальный шаг сдвига в сторону
         downStep = 50, // сдвиг вниз
         backgroundColor = colors.positioning; // цвет активной ноды
@@ -42,18 +42,18 @@ const createAnimation = (value, tree, params = { x: 500, y: 0, delay: 0, step: 1
     // анимация "сравнения"
     animations.push({
         backgroundColor,
-        translateY: params.y,
-        translateX: params.x + smallStep
+        top: params.y,
+        left: params.x + smallStep
     });
     animations.push({
         backgroundColor,
-        translateY: params.y,
-        translateX: params.x - smallStep
+        top: params.y,
+        left: params.x - smallStep
     });
     animations.push({
         backgroundColor,
-        translateY: params.y,
-        translateX: params.x
+        top: params.y,
+        left: params.x
     });
 
     // рассчет сдвига вниз
@@ -70,14 +70,14 @@ const createAnimation = (value, tree, params = { x: 500, y: 0, delay: 0, step: 1
 
     // умешьшениешага для сдвига в сторону
     if (params.step > minStep) {
-        params.step -= 40;
+        params.step /= 2;
     }
 
     // окончательная анимация текущего шага% сдвиг вниз и в сторону
     animations.push({
         backgroundColor,
-        translateY: params.y,
-        translateX: params.x
+        top: params.y,
+        left: params.x
     });
 
     // получение следующих анимаций
@@ -104,8 +104,8 @@ const getTransforms = (value, tree, el) => {
     transformParams.forEach(param => {
         let animationObject = {
             targets: el,
-            duration: 200,
-            delay: 200
+            duration: 150,
+            delay: 0
         };
 
         if (!param) {
@@ -113,13 +113,13 @@ const getTransforms = (value, tree, el) => {
         }
 
         // выставляем измение положения по оси x
-        if (param.translateX) {
-            animationObject.translateX = param.translateX;
+        if (param.left) {
+            animationObject.left = param.left;
         }
 
         // выставляем измение положения по оси y
-        if (param.translateY) {
-            animationObject.translateY = param.translateY;
+        if (param.top) {
+            animationObject.top = param.top;
         }
 
         // выставляем цвет
@@ -127,7 +127,7 @@ const getTransforms = (value, tree, el) => {
             animationObject.backgroundColor = param.backgroundColor;
         }
 
-        if (animationObject.translateX || animationObject.translateY) {
+        if (animationObject.left || animationObject.top) {
             transforms.push(animationObject)
         }
     });
@@ -150,7 +150,8 @@ const getTransforms = (value, tree, el) => {
  * @returns {Object[]}
  */
 const getSortTransforms = (el, lastState) => {
-    let transforms = [];
+    let transforms = [],
+        step = 2;
 
     // анимации изменения цвета и дрожания
     transforms.push({
@@ -158,32 +159,32 @@ const getSortTransforms = (el, lastState) => {
         duration: 50,
         delay: 100,
         backgroundColor: colors.sorting,
-        translateX: lastState.translateX - 1,
-        translateY: lastState.translateY
+        left: lastState.left - step,
+        top: lastState.top
     });
     transforms.push({
         targets: el,
         duration: 75,
         delay: 100,
         backgroundColor: colors.sorting,
-        translateX: lastState.translateX + 1,
-        translateY: lastState.translateY
+        left: lastState.left + step,
+        top: lastState.top
     });
     transforms.push({
         targets: el,
         duration: 50,
         delay: 100,
         backgroundColor: colors.sorting,
-        translateX: lastState.translateX - 1,
-        translateY: lastState.translateY
+        left: lastState.left - step,
+        top: lastState.top
     });
     transforms.push({
         targets: el,
         duration: 75,
         delay: 100,
         backgroundColor: colors.sorting,
-        translateX: lastState.translateX + 1,
-        translateY: lastState.translateY
+        left: lastState.left + step,
+        top: lastState.top
     });
 
     // окончание обработки
@@ -192,8 +193,8 @@ const getSortTransforms = (el, lastState) => {
         duration: 100,
         delay: 100,
         backgroundColor: colors.sorted,
-        translateX: lastState.translateX,
-        translateY: lastState.translateY
+        left: lastState.left,
+        top: lastState.top
     });
 
     return transforms;

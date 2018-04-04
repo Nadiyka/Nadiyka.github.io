@@ -7,12 +7,11 @@
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
-    padding: 20px 50px;
+    padding: 20px 0 0;
     height: 100%;
     width: 100%;
     color: #333;
-    font-size: 16px;
-    line-height: 1;
+    font: 16px/1 'Oswald', sans-serif;
 }
 .sort-page * {
     box-sizing: border-box;
@@ -22,16 +21,28 @@
     text-align: center;
 }
 .sort-page_description {
-    margin-bottom: 40px;
+    padding: 0 8em;
+    margin-bottom: 2em;
+    color: rgba(0,0,0,0.5);
 }
 .sort-page_parameters {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start;
-    margin-bottom: 25px;
+    align-items: stretch;
+    justify-content: center;
+    padding: 1em 0;
+    border-top: 2px solid rgba(0,0,0,0.1);
+    border-bottom: 2px solid rgba(0,0,0,0.1);
+    background: rgba(237, 237, 237, 0.2);
 }
 .sort-page_footer {
     align-self: flex-end;
+    padding: 3em;
+    width: 100%;
+    color: #6F6F6F;
+    font-size: 1.5em;
+    letter-spacing: 2px;
+    background: #333;
 }
 
 /**
@@ -40,7 +51,15 @@
 *
 */
 .sort-parameters {
-    padding: 10px 15px;
+    padding: 0 2em;
+    width: 300px;
+}
+.sort-parameters--generate {
+    border-left: 1px solid rgba(0,0,0,0.1);
+}
+.sort-parameters--controls {
+    margin-top: 1em;
+    width: 100%;
 }
 .sort-parameters_header {
     font-size: 1.1em;
@@ -55,7 +74,7 @@
     display: block;
     padding-left: 5px;
     margin-bottom: 10px;
-    font-weight: bold;
+    font-weight: 500;
 }
 .sort-parameters_group input,
 .sort-parameters_group textarea {
@@ -85,7 +104,9 @@
     border: 1px solid grey;
     border-radius: 3px;
     font-family: inherit;
+    font-weight: 200;
     line-height: 1;
+    letter-spacing: 1px;
     background-color: #fff;
     cursor: pointer;
 }
@@ -93,7 +114,65 @@
     box-shadow: 0 0 3px 0 dimgrey;
     outline: none;
 }
-
+.btn--big {
+    height: 80px;
+    padding: 0 40px;
+}
+.btn--medium {
+    height: 40px;
+    padding: 0 20px;
+}
+.btn--small {
+    height: 30px;
+    padding: 0;
+}
+.btn--set {
+    display: block;
+    margin: auto;
+    color: #fff;
+    font-size: 1.2em;
+    background-color: #70C1B3;
+    border-color: #B2DBBF;
+}
+.btn--set:focus {
+    box-shadow: 0 0 3px 0 #B2DBBF;
+}
+.btn--generate {
+     width: 200px;
+     color: #fff;
+     background-color: #247BA0;
+     border-color: #B2DBBF;
+ }
+.btn--generate:focus {
+    box-shadow: 0 0 3px 0 #B2DBBF;
+}
+.btn--sort {
+    text-transform: uppercase;
+    background-color: #F3FFBD;
+    border-color: #F3FFBD;
+}
+.btn--sort:focus {
+    box-shadow: 0 0 3px 0 #F3FFBD;
+}
+.btn--pause {
+    padding-bottom: 2px;
+    width: 30px;
+    border-radius: 3px 0 0 3px;
+    color: #fff;
+    font-size: 1.2em;
+    background-color: #B2DBBF;
+    border-color: #70C1B3;
+}
+.btn--resume {
+    padding-bottom: 2px;
+    width: 30px;
+    border-radius: 0 3px 3px 0;
+    border-left: none;
+    color: #fff;
+    font-size: 1.2em;
+    background-color: #B2DBBF;
+    border-color: #70C1B3;
+}
 /**
 *
 * СТИЛИ БЛОКА СОРТИРОВКИ
@@ -103,6 +182,8 @@
 
 }
 .sort-block ul {
+    margin: 0.5em 0;
+    padding: 0;
     list-style: none;
 }
 .sort-block li {
@@ -118,9 +199,13 @@
 
 }
 .sort-block_controls {
+    margin: 1em auto 0;
+}
+.sort-block_list {
     display: flex;
-    justify-content: space-between;
-    width: 500px;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em 8em;
 }
 
 /**
@@ -137,4 +222,20 @@
     top: 0;
     left: 0;
     opacity: 0;
+}
+
+/**
+*
+* ССЫЛКИ
+*
+*/
+.link {
+    color: inherit;
+    text-decoration: none;
+}
+.link:hover {
+    text-decoration: underline;
+}
+.link--info {
+    float: right;
 }

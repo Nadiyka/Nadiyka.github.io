@@ -2,11 +2,11 @@
 
 <template>
     <section>
-        <sort-set-parameters @set-parameters="setParameters"></sort-set-parameters>
         <sort-tree v-show="elements.length"
                    :elements="elements"
                    :direction="direction">
         </sort-tree>
+        <sort-set-parameters @set-parameters="setParameters"></sort-set-parameters>
     </section>
 </template>
 

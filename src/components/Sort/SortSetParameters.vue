@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        <div class="sort-parameters">
+        <div class="sort-parameters sort-parameters--generate">
             <h3>Сгенерировать элементы случайным образом</h3>
             <div class="sort-parameters_block">
                 <div class="sort-parameters_group">
@@ -44,18 +44,20 @@
             </div>
 
             <button
-                    class="btn"
+                    class="btn btn--medium btn--generate"
                     type="button"
                     @click="generateRandomElements">
-                Сгенерировать случайно
+                Сгенерировать
             </button>
         </div>
-        <button
-                class="btn"
-                type="button"
-                @click="returnParameters">
-            Применить
-        </button>
+        <div class="sort-parameters sort-parameters--controls">
+            <button
+                    class="btn btn--big btn--set"
+                    type="button"
+                    @click="returnParameters">
+                Применить
+            </button>
+        </div>
     </div>
 </template>
 

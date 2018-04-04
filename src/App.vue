@@ -11,7 +11,8 @@
         </section>
         <sort-component></sort-component>
         <footer class="sort-page_footer">
-            <a href="#">GitHub репозиторий</a>
+            <a class="link" href="#">GitHub репозиторий</a>
+            <a class="link link--info" href="https://vuejs.org/" target="_blank">&#x2692;&amp;&#x2620;</a>
         </footer>
     </div>
 </template>
