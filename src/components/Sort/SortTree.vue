@@ -33,7 +33,8 @@
         <div v-show="tree"
              class="sort-block_list">
             <h3 class="sort-block_header">Построенное дерево:</h3>
-            <ul class="tree" :style="{ 'height': `${height}px` }">
+            <ul class="tree"
+                :style="{ 'height': `${height}px` }">
                 <li v-for="node in nodeElements"
                     :ref="node.key"
                     :style="{ 'background-color': colors.base }">
@@ -247,6 +248,15 @@
             startSorting() {
                 this.tree = null;
                 this.sortedElements = [];
+
+                // сокрытие элементов
+                this.initialElements.forEach((el) => {
+                    if (this.$refs[el.key]) {
+                        this.$refs[el.key][0].style.opacity = 0;
+                        this.$refs[el.key][0].style.top = 0;
+                        this.$refs[el.key][0].style.left = 0;
+                    }
+                });
 
                 // обход дерева, после его создания
                 this.createTree().then(() => {
