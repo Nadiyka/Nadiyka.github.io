@@ -1,0 +1,140 @@
+/**
+*
+* СТИЛИ ОСНОВННЫХ БЛОКОВ СТРАНИЦЫ
+*
+*/
+.sort-page {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    padding: 20px 50px;
+    height: 100%;
+    width: 100%;
+    color: #333;
+    font-size: 16px;
+    line-height: 1;
+}
+.sort-page * {
+    box-sizing: border-box;
+}
+.sort-page_header {
+    font-size: 1.2em;
+    text-align: center;
+}
+.sort-page_description {
+    margin-bottom: 40px;
+}
+.sort-page_parameters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+.sort-page_footer {
+    align-self: flex-end;
+}
+
+/**
+*
+* СТИЛИ ДЛЯ УСТАНОВКИ ПАРАМЕТРОВ
+*
+*/
+.sort-parameters {
+    padding: 10px 15px;
+}
+.sort-parameters_header {
+    font-size: 1.1em;
+}
+.sort-parameters_block {
+
+}
+.sort-parameters_group {
+    margin-bottom: 15px;
+}
+.sort-parameters_group label {
+    display: block;
+    padding-left: 5px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+.sort-parameters_group input,
+.sort-parameters_group textarea {
+    padding: 5px 10px;
+    height: 35px;
+    width: 200px;
+    border: 1px solid gray;
+    border-radius: 3px;
+}
+.sort-parameters_group input:focus,
+.sort-parameters_group textarea:focus {
+    box-shadow: 0 0 3px 0 dimgrey;
+    outline: none;
+}
+.sort-parameters_group textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+/**
+*
+* ЭЛЕМЕНТЫ УПРАВЛЕНИЯ
+*
+*/
+.btn {
+    padding: 5px 10px;
+    border: 1px solid grey;
+    border-radius: 3px;
+    font-family: inherit;
+    line-height: 1;
+    background-color: #fff;
+    cursor: pointer;
+}
+.btn:focus {
+    box-shadow: 0 0 3px 0 dimgrey;
+    outline: none;
+}
+
+/**
+*
+* СТИЛИ БЛОКА СОРТИРОВКИ
+*
+*/
+.sort-block {
+
+}
+.sort-block ul {
+    list-style: none;
+}
+.sort-block li {
+    display: inline-block;
+    padding-top: 6px;
+    height: 30px;
+    width: 30px;
+    margin: 5px;
+    border-radius: 50%;
+    text-align: center;
+}
+.sort-block_header {
+
+}
+.sort-block_controls {
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
+}
+
+/**
+*
+* СТИЛИ АНИМИРУЕМОГО ДЕРЕВА
+*
+*/
+.tree {
+    position: relative;
+    width: 100%;
+}
+.tree li {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}

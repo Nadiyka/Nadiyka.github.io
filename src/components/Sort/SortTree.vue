@@ -1,40 +1,55 @@
 <template>
-    <div>
-        <div class="sort-tree">
-            <div class="sort-tree_initial">
-                Исходные элементы:
-                <ul>
-                    <li
-                            v-for="element in initialElements"
-                            :key="element.key"
-                            :class="{ 'active': activeNode !== false && (activeNode  === element.key) }">{{element.value}}</li>
-                </ul>
-            </div>
-
-            <div class="sort-tree_animation">
-                Построенное дерево:
-                <ul class="tree">
-                    <li
-                            v-for="node in nodeElements"
-                            :key="node.key"
-                            :ref="node.key"
-                            :class="{ 'active': activeNode !== false && (activeNode === node.key) }">{{node.value}}</li>
-                </ul>
-            </div>
-
-
-            <div class="sort-tree_results">
-                Отсортированные элементы:
-                <ul>
-                    <li v-for="sortedElement in sortedElements"> {{sortedElement}} </li>
-                </ul>
-            </div>
+    <div class="sort-block">
+        <div class="sort-block_initial">
+            <h3 class="sort-block_header">Исходные элементы:</h3>
+            <ul class="sort-block_elements">
+                <li v-for="element in initialElements"
+                    :key="element.key"
+                    :class="{ 'active': activeNode !== false && (activeNode  === element.key) }"
+                    :style="{ 'background-color': colors.base }">{{element.value}}</li>
+            </ul>
         </div>
-        <button
-            type="button"
-            @click="startSorting">
+
+        <div v-show="tree"
+             class="sort-block_animation">
+            <h3 class="sort-block_header">Построенное дерево:</h3>
+            <ul class="tree" :style="{ 'height': `${height}px` }">
+                <li v-for="node in nodeElements"
+                    :key="node.key"
+                    :ref="node.key"
+                    :class="{ 'active': activeNode !== false && (activeNode === node.key) }"
+                    :style="{ 'background-color': colors.base }">{{node.value}}</li>
+            </ul>
+        </div>
+
+        <div v-if="sortedElements.length"
+             class="sort-block_results">
+            <h3 class="sort-block_header">Отсортированные элементы:</h3>
+            <ul class="sort-block_elements">
+                <li v-for="sortedElement in sortedElements"
+                    :style="{ 'background-color': colors.sorted }"> {{sortedElement}} </li>
+            </ul>
+        </div>
+
+        <div class="sort-block_controls">
+            <button class="btn btn--sort"
+                    type="button"
+                    @click="startSorting">
                 Начать сортировку
-        </button>
+            </button>
+            <button class="btn btn--pause"
+                    type="button"
+                    :disabled="this.timeline === null"
+                    @click="pauseSorting">
+                Пауза
+            </button>
+            <button class="btn btn--resume"
+                    type="button"
+                    :disabled="this.timeline === null"
+                    @click="resumeSorting">
+                Продолжить
+            </button>
+        </div>
     </div>
 </template>
 <script>
@@ -91,7 +106,13 @@
                 sortedElements: [],
 
                 // текущая анимация
-                timeline: null
+                timeline: null,
+
+                // цвета для элементов
+                colors: colors,
+
+                // высота блока с деревом
+                height: 0
             }
         },
 
@@ -134,6 +155,9 @@
              * @returns {Promise}
              */
             createTree() {
+                let baseHeightAddition = 10,
+                    height = baseHeightAddition;
+
                 this.timeline = anime.timeline({
                     autoplay: false
                 });
@@ -184,21 +208,16 @@
                             lastState = transform;
                         });
 
+                        baseHeightAddition += 10;
+                        height = lastState.translateY + baseHeightAddition;
+
                         node.setLastState(lastState);
                     }
-
-                    this.timeline.add({
-                        targets: this.$refs[el.key],
-                        backgroundColor: {
-                            value: '#DB7093',
-                            easing: 'easeInOutSine',
-                            duration: 100,
-                            delay: 0
-                        }
-                    });
                 });
 
                 this.timeline.play();
+
+                this.height = height;
 
                 return this.timeline.finished;
             },
@@ -239,6 +258,9 @@
                         this.tree.visitNode(this.printNode);
 
                         this.timeline.play();
+                        this.timeline.finished.then(() => {
+                            this.timeline = null;
+                        })
                     }
                 });
             },
@@ -249,42 +271,23 @@
             clearCurrentSort() {
                 this.tree = null;
                 this.activeNode = false;
+                this.timeline = null;
                 this.initialElements = [];
                 this.nodeElements = [];
                 this.sortedElements = [];
+            },
+
+            pauseSorting() {
+                if (this.timeline) {
+                    this.timeline.pause();
+                }
+            },
+
+            resumeSorting() {
+                if (this.timeline) {
+                    this.timeline.play();
+                }
             }
         }
     }
 </script>
-<style>
-    .tree {
-        position: relative;
-        width: 100%;
-        height: 300px;
-    }
-    .tree li {
-        position: absolute;
-        top: 0;
-        left: 0;
-        opacity: 0;
-    }
-
-
-    .sort-tree {
-
-    }
-    ul {
-        list-style: none;
-    }
-    ul li {
-        display: inline-block;
-        margin: 5px;
-        padding: 5px;
-        background-color: palevioletred;
-        border: 1px solid indianred;
-    }
-
-    .active {
-        background: chartreuse;
-    }
-</style>

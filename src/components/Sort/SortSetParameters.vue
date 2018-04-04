@@ -1,45 +1,57 @@
 <!-- Компонент для выставления параметров сортировки -->
 
 <template>
-    <div>
-        <div>
-            <h3> Ввести элементы вручную</h3>
-            <textarea
-                    v-model="parametersInput"
-                    @blur="setElements"></textarea>
+    <div class="sort-page_parameters">
+        <div class="sort-parameters">
+            <h3 class="sort-parameters_header"> Ввести элементы вручную</h3>
+            <div class="sort-parameters_block">
+                <div class="sort-parameters_group">
+                    <label for="sortElements">Список элементов</label>
+                    <textarea
+                            id="sortElements"
+                            v-model="parametersInput"
+                            @blur="setElements"></textarea>
+                </div>
+            </div>
         </div>
-        <div>
+        <div class="sort-parameters">
             <h3>Сгенерировать элементы случайным образом</h3>
-
-            <label for="randomMin"> Минимальное случайное значение </label>
-            <input
-                    id="randomMin"
-                    type="number"
-                    :min="0"
-                    v-model="elementsRange.min">
-
-            <label for="randomMax"> Максимальное случайное значение </label>
-            <input
-                    id="randomMax"
-                    type="number"
-                    :min="elementsRange.min"
-                    v-model="elementsRange.max">
-
-            <label for="randomQuantity"> Количество элементов </label>
-            <input
-                    id="randomQuantity"
-                    type="number"
-                    :min="1"
-                    v-model="elementsQuantity">
+            <div class="sort-parameters_block">
+                <div class="sort-parameters_group">
+                    <label for="randomMin"> Минимальное случайное значение </label>
+                    <input
+                            id="randomMin"
+                            type="number"
+                            :min="0"
+                            v-model="elementsRange.min">
+                </div>
+                <div class="sort-parameters_group">
+                    <label for="randomMax"> Максимальное случайное значение </label>
+                    <input
+                            id="randomMax"
+                            type="number"
+                            :min="elementsRange.min"
+                            v-model="elementsRange.max">
+                </div>
+                <div class="sort-parameters_group">
+                    <label for="randomQuantity"> Количество элементов </label>
+                    <input
+                            id="randomQuantity"
+                            type="number"
+                            :min="1"
+                            v-model="elementsQuantity">
+                </div>
+            </div>
 
             <button
+                    class="btn"
                     type="button"
                     @click="generateRandomElements">
                 Сгенерировать случайно
             </button>
         </div>
-        {{elements}}
         <button
+                class="btn"
                 type="button"
                 @click="returnParameters">
             Применить

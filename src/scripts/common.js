@@ -32,7 +32,7 @@ const createAnimation = (value, tree, params = { x: 500, y: 0, delay: 0, step: 1
         smallStep = 40, // шаг для сравнения
         minStep = 50, // минимальный шаг сдвига в сторону
         downStep = 50, // сдвиг вниз
-        backgroundColor = colors.positioning;
+        backgroundColor = colors.positioning; // цвет активной ноды
 
     // если нет ветки, нечего анимировать
     if (!tree || (!tree.leftNode && !tree.rightNode)) {
@@ -132,6 +132,12 @@ const getTransforms = (value, tree, el) => {
         }
     });
 
+    // возвращение к базовому цвету
+    let lastAnimation = transforms[transforms.length - 1];
+
+    lastAnimation.backgroundColor = colors.base;
+    transforms.push(lastAnimation);
+
     return transforms;
 };
 
@@ -149,34 +155,34 @@ const getSortTransforms = (el, lastState) => {
     // анимации изменения цвета и дрожания
     transforms.push({
         targets: el,
-        duration: 100,
+        duration: 50,
         delay: 100,
         backgroundColor: colors.sorting,
-        translateX: lastState.translateX - 5,
+        translateX: lastState.translateX - 1,
         translateY: lastState.translateY
     });
     transforms.push({
         targets: el,
-        duration: 150,
+        duration: 75,
         delay: 100,
         backgroundColor: colors.sorting,
-        translateX: lastState.translateX + 5,
+        translateX: lastState.translateX + 1,
         translateY: lastState.translateY
     });
     transforms.push({
         targets: el,
-        duration: 100,
+        duration: 50,
         delay: 100,
         backgroundColor: colors.sorting,
-        translateX: lastState.translateX - 5,
+        translateX: lastState.translateX - 1,
         translateY: lastState.translateY
     });
     transforms.push({
         targets: el,
-        duration: 150,
+        duration: 75,
         delay: 100,
         backgroundColor: colors.sorting,
-        translateX: lastState.translateX + 5,
+        translateX: lastState.translateX + 1,
         translateY: lastState.translateY
     });
 
