@@ -141,10 +141,10 @@
      width: 200px;
      color: #fff;
      background-color: #247BA0;
-     border-color: #B2DBBF;
+     border-color: #247BA0;
  }
 .btn--generate:focus {
-    box-shadow: 0 0 3px 0 #B2DBBF;
+    box-shadow: 0 0 3px 0 #247BA0;
 }
 .btn--sort {
     text-transform: uppercase;
