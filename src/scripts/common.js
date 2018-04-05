@@ -94,17 +94,18 @@ const createAnimation = (value, tree, params = { x: 500, y: 0, step: 200}) => {
  * @param {Number} value - эначение
  * @param {Node} tree - ветка дерева
  * @param {HTMLElement} el - анимируеный элемент в DOM
+ * @param {Number} speedRate - модификатор скорости
  *
  * @returns {Object[]}
  */
-const getTransforms = (value, tree, el) => {
+const getTransforms = (value, tree, el, speedRate = 1) => {
     let transformParams = createAnimation(value, tree),
         transforms = [];
 
     transformParams.forEach(param => {
         let animationObject = {
             targets: el,
-            duration: 150,
+            duration: 150 / speedRate,
             delay: 0
         };
 
@@ -146,17 +147,18 @@ const getTransforms = (value, tree, el) => {
  *
  * @param {HTMLElement} el - анимируеный элемент в DOM
  * @param {Object} lastState - последнее состояние узла
+ * @param {Number} speedRate - модификатор скорости
  *
  * @returns {Object[]}
  */
-const getSortTransforms = (el, lastState) => {
+const getSortTransforms = (el, lastState, speedRate = 1) => {
     let transforms = [],
         step = 2;
 
     // анимации изменения цвета и дрожания
     transforms.push({
         targets: el,
-        duration: 50,
+        duration: 50 / speedRate,
         delay: 100,
         backgroundColor: colors.sorting,
         left: lastState.left - step,
@@ -164,7 +166,7 @@ const getSortTransforms = (el, lastState) => {
     });
     transforms.push({
         targets: el,
-        duration: 75,
+        duration: 75 / speedRate,
         delay: 100,
         backgroundColor: colors.sorting,
         left: lastState.left + step,
@@ -172,7 +174,7 @@ const getSortTransforms = (el, lastState) => {
     });
     transforms.push({
         targets: el,
-        duration: 50,
+        duration: 50 / speedRate,
         delay: 100,
         backgroundColor: colors.sorting,
         left: lastState.left - step,
@@ -180,7 +182,7 @@ const getSortTransforms = (el, lastState) => {
     });
     transforms.push({
         targets: el,
-        duration: 75,
+        duration: 75 / speedRate,
         delay: 100,
         backgroundColor: colors.sorting,
         left: lastState.left + step,
@@ -190,7 +192,7 @@ const getSortTransforms = (el, lastState) => {
     // окончание обработки
     transforms.push({
         targets: el,
-        duration: 100,
+        duration: 100 / speedRate,
         delay: 100,
         backgroundColor: colors.sorted,
         left: lastState.left,

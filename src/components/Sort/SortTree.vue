@@ -13,6 +13,11 @@
                     @click="startSorting">
                 Начать сортировку
             </button>
+            <input type="range"
+                   min="0.1"
+                   max="2"
+                   step="0.1"
+                   v-model="speedRate">
             <div v-show="this.timeline !== null"
                  class="sort-block_controls">
                 <button class="btn btn--small btn--pause"
@@ -134,7 +139,10 @@
                 },
 
                 // текущий шаг сортировки
-                currentSortStep: ''
+                currentSortStep: '',
+
+                // скорость сортировки
+                speedRate: 1
             }
         },
 
@@ -168,6 +176,12 @@
                     });
                 },
                 deep: true
+            },
+
+            speedRate() {
+                if (typeof this.speedRate !== 'number') {
+                    this.speedRate = parseFloat(this.speedRate);
+                }
             }
         },
 
@@ -194,13 +208,13 @@
                         targets: this.$refs[el.key],
                         opacity: {
                             value: 1,
-                            duration: 100,
+                            duration: 100 / this.speedRate,
                             delay: 0
                         },
                         backgroundColor: {
                             value: colors.base,
                             easing: 'easeInOutSine',
-                            duration: 100,
+                            duration: 100 / this.speedRate,
                             delay: 0
                         }
                     });
@@ -212,6 +226,7 @@
                         // появление корневого элемента дерева
                         this.timeline.add({
                             targets: this.$refs[el.key],
+                            duration: 100 / this.speedRate,
                             left: 500
                         });
 
@@ -219,11 +234,10 @@
                             left: 500
                         });
                     } else {
-                        // обработка не корневых элементов дерева
                         this.tree.addNode(node);
 
                         // настраиваем анимацию
-                        let transforms = getTransforms(node.getValue(), this.tree, this.$refs[el.key]),
+                        let transforms = getTransforms(node.getValue(), this.tree, this.$refs[el.key], this.speedRate),
                             lastState = null;
 
                         transforms.forEach( transform => {
@@ -253,7 +267,7 @@
              * @param {Object} lastState - последнее состояние узла
              */
             printNode(value, el, lastState) {
-                let transforms = getSortTransforms(el, lastState);
+                let transforms = getSortTransforms(el, lastState, this.speedRate);
 
                 // добаление анимаций в таймлайн
                 transforms.forEach(transform => {
@@ -313,12 +327,18 @@
                 this.currentSortStep = '';
             },
 
+            /**
+             * Функция приостанавливавет сортировку
+             */
             pauseSorting() {
                 if (this.timeline) {
                     this.timeline.pause();
                 }
             },
 
+            /**
+             * Функция запускает продолжение сортировки
+             */
             resumeSorting() {
                 if (this.timeline) {
                     this.timeline.play();

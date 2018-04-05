@@ -20,6 +20,9 @@ const Node =  class {
             translateY: 0
         };
 
+        // анимации элемента
+        this.animations = [];
+
         // левая ветка
         this.leftNode = null;
 
@@ -49,12 +52,14 @@ const Node =  class {
                 this.leftNode.addNode(node)
             } else {
                 this.leftNode = node;
+                return this;
             }
         } else {
             if (this.rightNode !== null) {
                 this.rightNode.addNode(node)
             } else {
                 this.rightNode = node;
+                return this;
             }
         }
     }
