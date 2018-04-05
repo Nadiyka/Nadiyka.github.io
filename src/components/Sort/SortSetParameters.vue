@@ -26,7 +26,7 @@
                             :max="elementsRange.max"
                             v-model="elementsRange.min">
                 </div>
-                <div class="sort-parameters_group sort-parameters_group--speed">
+                <div class="sort-parameters_group">
                     <label for="randomMax"> Максимальное случайное значение </label>
                     <input
                             id="randomMax"
@@ -202,7 +202,12 @@
                     let newSplittedElements = [];
 
                     splittedElements.forEach((element) => {
-                        newSplittedElements = newSplittedElements.concat(element.split(splitter))
+                        let splited = element.split(splitter);
+
+                        if (splited[splited.length - 1] === '') {
+                            splited = splited.splice(0, splited.length - 1)
+                        }
+                        newSplittedElements = newSplittedElements.concat(splited)
                     });
 
                     splittedElements = newSplittedElements;

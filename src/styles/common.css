@@ -76,7 +76,7 @@
     margin-bottom: 10px;
     font-weight: 500;
 }
-.sort-parameters_group input[type=text],
+.sort-parameters_group input[type=number],
 .sort-parameters_group textarea {
     padding: 5px 10px;
     height: 35px;
@@ -84,7 +84,7 @@
     border: 1px solid gray;
     border-radius: 3px;
 }
-.sort-parameters_group input[type=text]:focus,
+.sort-parameters_group input[type=number]:focus,
 .sort-parameters_group textarea:focus {
     box-shadow: 0 0 3px 0 dimgrey;
     outline: none;
