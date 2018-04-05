@@ -26,7 +26,7 @@
                             :max="elementsRange.max"
                             v-model="elementsRange.min">
                 </div>
-                <div class="sort-parameters_group">
+                <div class="sort-parameters_group sort-parameters_group--speed">
                     <label for="randomMax"> Максимальное случайное значение </label>
                     <input
                             id="randomMax"

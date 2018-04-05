@@ -13,11 +13,15 @@
                     @click="startSorting">
                 Начать сортировку
             </button>
-            <input type="range"
-                   min="0.1"
-                   max="2"
-                   step="0.1"
-                   v-model="speedRate">
+            <div class="sort-parameters_group sort-parameters_group--speed">
+                <label for="speedRate">Скорость сортировки</label>
+                <input id="speedRate"
+                       type="range"
+                       min="0.1"
+                       max="2"
+                       step="0.1"
+                       v-model="speedRate">
+            </div>
             <div v-show="this.timeline !== null"
                  class="sort-block_controls">
                 <button class="btn btn--small btn--pause"
