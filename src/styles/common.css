@@ -216,11 +216,21 @@
 .sort-block_steps li {
     color: rgba(0,0,0,0.5);
 }
+.sort-block_steps li::after {
+    margin-left: 0.5em;
+}
 .sort-block_steps li.active {
     color: #247BA0;
 }
+.sort-block_steps li.active::after {
+    content: '\0261A';
+}
 .sort-block_steps li.done {
     color: inherit;
+}
+.sort-block_steps li.done::after {
+    content: '\0262D';
+    color: #FF1654;
 }
 
 /**
