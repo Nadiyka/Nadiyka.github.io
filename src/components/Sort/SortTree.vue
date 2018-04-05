@@ -30,6 +30,16 @@
             </div>
         </div>
 
+        <div v-show="currentSortStep" class="sort-block_steps">
+            <h3 class="sort-block_header"> Шаг сортировки:</h3>
+            <ol>
+                <li :class="{ 'active': currentSortStep === sortSteps.build,
+                              'done': ( currentSortStep === sortSteps.finished || currentSortStep === sortSteps.sort ) }">Построение бинарного дерева</li>
+                <li :class="{ 'active': currentSortStep === sortSteps.sort,
+                              'done': ( currentSortStep === sortSteps.finished ) }">Обход дерева</li>
+            </ol>
+        </div>
+
         <div v-show="tree"
              class="sort-block_list">
             <h3 class="sort-block_header">Построенное дерево:</h3>
@@ -114,7 +124,17 @@
                 colors: colors,
 
                 // высота блока с деревом
-                height: 0
+                height: 0,
+
+                // шаги сортировки
+                sortSteps: {
+                    build: 'build',
+                    sort: 'sort',
+                    finished: 'finished'
+                },
+
+                // текущий шаг сортировки
+                currentSortStep: ''
             }
         },
 
@@ -124,6 +144,7 @@
                     let arrayCounter = countDuplicates(this.elements);
 
                     this.clearCurrentSort();
+                    this.currentSortStep = '';
 
                     // вычисление дубликатов
                     this.elements.forEach((el) => {
@@ -258,10 +279,12 @@
                     }
                 });
 
+                this.currentSortStep = this.sortSteps.build;
                 // обход дерева, после его создания
                 this.createTree().then(() => {
                     this.activeNode = false;
                     if (this.tree) {
+                        this.currentSortStep = this.sortSteps.sort;
                         this.timeline = anime.timeline({
                             autoplay: false
                         });
@@ -270,6 +293,7 @@
 
                         this.timeline.play();
                         this.timeline.finished.then(() => {
+                            this.currentSortStep = this.sortSteps.finished;
                             this.timeline = null;
                         })
                     }
@@ -286,6 +310,7 @@
                 this.initialElements = [];
                 this.nodeElements = [];
                 this.sortedElements = [];
+                this.currentSortStep = '';
             },
 
             pauseSorting() {

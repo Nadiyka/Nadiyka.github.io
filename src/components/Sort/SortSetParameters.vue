@@ -39,6 +39,7 @@
                             id="randomQuantity"
                             type="number"
                             :min="1"
+                            :max="maxElementsQuantity"
                             v-model="elementsQuantity">
                 </div>
             </div>
@@ -67,7 +68,7 @@
 
         data() {
             return {
-                // todo: максмальное количество сортируемых элементов
+                // максимальное количество элементов
                 maxElementsQuantity: 20,
 
                 // количество сортируемых элементов
@@ -177,11 +178,11 @@
              * Функция устанавливает элементы для сортировки
              */
             setElements() {
-                let splitters = [',', ' ', '.', ';'],
+                let splitters = [',', '.', ';'],
                     splittedElements = [ this.parametersInput.trim() ];
 
                 // выделяем элементы, очищая ввод от разделителей
-                splitters.forEach((splitter) => {
+                splitters.every((splitter) => {
                     let newSplittedElements = [];
 
                     splittedElements.forEach((element) => {
@@ -189,6 +190,8 @@
                     });
 
                     splittedElements = newSplittedElements;
+
+                    return newSplittedElements.length <= this.maxElementsQuantity
                 });
 
                 // преобразуем элементы к числам

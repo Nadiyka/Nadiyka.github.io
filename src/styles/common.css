@@ -186,7 +186,7 @@
     padding: 0;
     list-style: none;
 }
-.sort-block li {
+.sort-block ul li {
     display: inline-block;
     padding-top: 6px;
     height: 30px;
@@ -206,6 +206,21 @@
     flex-direction: column;
     align-items: center;
     padding: 1em 8em;
+}
+.sort-block_steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1em 8em;
+}
+.sort-block_steps li {
+    color: rgba(0,0,0,0.5);
+}
+.sort-block_steps li.active {
+    color: #247BA0;
+}
+.sort-block_steps li.done {
+    color: inherit;
 }
 
 /**
