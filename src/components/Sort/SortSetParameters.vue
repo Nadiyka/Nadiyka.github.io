@@ -22,7 +22,8 @@
                     <input
                             id="randomMin"
                             type="number"
-                            :min="0"
+                            :min="elementsRangeLimits.min"
+                            :max="elementsRange.max"
                             v-model="elementsRange.min">
                 </div>
                 <div class="sort-parameters_group">
@@ -31,6 +32,7 @@
                             id="randomMax"
                             type="number"
                             :min="elementsRange.min"
+                            :max="elementsRangeLimits.max"
                             v-model="elementsRange.max">
                 </div>
                 <div class="sort-parameters_group">
@@ -69,7 +71,7 @@
         data() {
             return {
                 // максимальное количество элементов
-                maxElementsQuantity: 20,
+                maxElementsQuantity: 10,
 
                 // количество сортируемых элементов
                 elementsQuantity: 10,
@@ -80,13 +82,19 @@
                     max: 100
                 },
 
+                // диапазон возможных значений элементов
+                elementsRangeLimits: {
+                    min: 0,
+                    max: 999
+                },
+
                 // сортируемые элменты
                 elements: [],
 
                 // пользовательский ввод
                 parametersInput: '',
 
-                // todo: направление сортировки
+                // навравление сортировки (позже)
                 direction: ''
             }
         },
@@ -103,8 +111,12 @@
                     }
                 }
 
-                if (this.elementsRange.max < 0) {
+                if (this.elementsRange.max < this.elementsRangeLimits.min) {
                     this.elementsRange.max = Math.abs(this.elementsRange.max);
+                }
+
+                if (this.elementsRange.max > this.elementsRangeLimits.max) {
+                    this.elementsRange.max = this.elementsRangeLimits.max;
                 }
             },
 
@@ -119,8 +131,12 @@
                     }
                 }
 
-                if (this.elementsRange.min < 0) {
-                    this.elementsRange.min = Math.abs(this.elementsRange.min);
+                if (this.elementsRange.min < this.elementsRangeLimits.min) {
+                    this.elementsRange.min = this.elementsRangeLimits.min;
+                }
+
+                if (this.elementsRange.min < this.elementsRangeLimits.max) {
+                    this.elementsRange.min = this.elementsRange.max;
                 }
             },
 
@@ -154,7 +170,7 @@
                 }
 
                 let generatedElements = [],
-                    elementsToGenerate = this.elementsQuantity,
+                    elementsToGenerate = this.elementsQuantity > this.maxElementsQuantity ? this.maxElementsQuantity : this.elementsQuantity,
                     multiplier = this.elementsRange.max + 1 - this.elementsRange.min;
 
                 while (elementsToGenerate--) {
@@ -182,7 +198,7 @@
                     splittedElements = [ this.parametersInput.trim() ];
 
                 // выделяем элементы, очищая ввод от разделителей
-                splitters.every((splitter) => {
+                splitters.forEach((splitter) => {
                     let newSplittedElements = [];
 
                     splittedElements.forEach((element) => {
@@ -190,8 +206,6 @@
                     });
 
                     splittedElements = newSplittedElements;
-
-                    return newSplittedElements.length <= this.maxElementsQuantity
                 });
 
                 // преобразуем элементы к числам
@@ -199,11 +213,19 @@
                     element = parseInt(element);
 
                     if (isNaN(element)) {
-                        return 0;
+                        return this.elementsRangeLimits.min;
+                    }
+
+                    if (element > this.elementsRangeLimits.max) {
+                        return this.elementsRangeLimits.max;
                     }
 
                     return Math.abs(element)
                 });
+
+                if (splittedElements.length > this.maxElementsQuantity) {
+                    splittedElements = splittedElements.slice(0, this.maxElementsQuantity);
+                }
 
                 this.elements = splittedElements;
             }
